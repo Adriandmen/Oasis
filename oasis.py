@@ -96,6 +96,40 @@ def func_a(n):
         elif command == "b":
             stack.append(func_a(n - 1))
 
+        elif command == "c":
+            stack.append(func_a(n - 2))
+
+        elif command == "d":
+            stack.append(func_a(n - 3))
+
+        elif command == "e":
+            x = pop_stack()
+            stack.append(func_a(n - x))
+
+        elif command == "p":
+            a = pop_stack()
+            stack.append(is_prime(a))
+
+        elif command == "x":
+            a = pop_stack()
+            stack.append(single_arithmetic(a, "* 2"))
+
+        elif command == "y":
+            a = pop_stack()
+            stack.append(single_arithmetic(a, "* 3"))
+
+        elif command == "z":
+            a = pop_stack()
+            stack.append(single_arithmetic(a, "* 4"))
+
+        elif command == "\u00ab":
+            a = pop_stack()
+            stack.append(single_arithmetic(a, "- 2"))
+
+        elif command == "\u00bb":
+            a = pop_stack()
+            stack.append(single_arithmetic(a, "+ 2"))
+
         elif command.isnumeric():
             temp_number = ""
             temp_number += command
@@ -153,6 +187,11 @@ if __name__ == "__main__":
         code = open(filename, "r", encoding="cp1252").read()
     else:
         code = open(filename, "r", encoding="utf-8").read()
+
+    code = code.replace("T", "10")
+    code = code.replace("U", "00")
+    code = code.replace("V", "11")
+    code = code.replace("W", "000")
 
     while is_digit_value(code[-1]) or code[-1] == "N":
         if code[-1] == "N":
