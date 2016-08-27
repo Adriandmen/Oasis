@@ -51,6 +51,15 @@ def is_digit_value(value):
         return 0
 
 
+def largest_divisor(n):
+    if n == 2:
+        return 1
+
+    value = n // 2 + 1
+    while n % value != 0:
+        value -= 1
+    return value
+
 def flatten(x):
     if isinstance(x, collections.Iterable):
         return [a for i in x for a in flatten(i)]

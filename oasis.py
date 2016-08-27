@@ -1,6 +1,7 @@
 import ast
 import argparse
 import sys
+import math
 from commands import *
 
 
@@ -86,6 +87,10 @@ def func_a(n):
             a = pop_stack()
             stack.append(single_arithmetic(a, "- 1"))
 
+        elif command == "!":
+            a = pop_stack()
+            stack.append(math.factorial(a))
+
         elif command == "n":
             stack.append(n)
 
@@ -105,6 +110,10 @@ def func_a(n):
         elif command == "e":
             x = pop_stack()
             stack.append(func_a(n - x))
+
+        elif command == "j":
+            a = pop_stack()
+            stack.append(largest_divisor(a))
 
         elif command == "p":
             a = pop_stack()

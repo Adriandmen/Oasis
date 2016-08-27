@@ -1,4 +1,4 @@
-!    = 
+!    = Factorial (A 1)
 "    = 
 #    = 
 $    = 
@@ -25,9 +25,9 @@ $    =
 9    = Numeric literal (A 0)
 :    = 
 ;    = 
-<    = Increments a number (A 1)
+<    = Decrements a number (A 1)
 =    = 
->    = 
+>    = Increments a number (A 1)
 ?    = 
 @    = 
 A    = 
@@ -71,7 +71,7 @@ f    =
 g    = 
 h    = 
 i    = 
-j    = 
+j    = Get the largest divisor < n (A 1)
 k    = 
 l    = 
 m    = 
