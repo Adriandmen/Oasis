@@ -2,6 +2,7 @@ import ast
 import argparse
 import sys
 import math
+from primes import *
 from commands import *
 
 
@@ -11,8 +12,7 @@ sys.setrecursionlimit(5000)
 
 def func_a(n):
 
-    if n > len(elements) + 1000:
-        func_a(n - 1000)
+
 
     stack = []
 
@@ -20,6 +20,8 @@ def func_a(n):
         if s2:
             return s2.pop()
         else:
+            if n > len(elements) + 1000:
+                func_a(n - 1000)
             if DEBUG:
                 print("using a(" + str(n2 - 1) + ") = " + str(func_a(n2 - 1)))
             return func_a(n2 - 1)
@@ -70,6 +72,11 @@ def func_a(n):
             a = pop_stack()
             stack.append(regular_arithmetic(a, b, "/"))
 
+        elif command == "m":
+            b = pop_stack()
+            a = pop_stack()
+            stack.append(regular_arithmetic(a, b, "**"))
+
         elif command == "\u00f7":
             b = pop_stack()
             a = pop_stack()
@@ -118,6 +125,23 @@ def func_a(n):
         elif command == "p":
             a = pop_stack()
             stack.append(is_prime(a))
+
+        elif command == "q":
+            a = pop_stack()
+
+            if -1 < a < 9999:
+                stack.append(primes_100000[a])
+            else:
+                if a < 0:
+                    stack.append(0)
+                else:
+                    current_num = 104729
+                    prime_count = 10000
+                    while prime_count < a + 1:
+                        current_num += 2
+                        if is_prime(current_num):
+                            prime_count += 1
+                    stack.append(current_num)
 
         elif command == "x":
             a = pop_stack()
@@ -213,7 +237,7 @@ if __name__ == "__main__":
     try:
         n_num = int(num[0])
     except:
-        n_num = None
+        n_num = 0
 
     if TIME_IT:
         import time
