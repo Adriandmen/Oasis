@@ -12,6 +12,16 @@ selector = []
 sys.setrecursionlimit(5000)
 
 
+commands = [
+    # Arity-0
+    "0123456789Nbcdn",
+    # Arity-1 (note that s is here because it does not change the height of the stack)
+    " !<>aejpqsxy\u00ab\u00b2\u00bb",
+    # Arity-2
+    "%*+-/m\u00f7",
+]
+
+
 def func_a(n):
 
     stack_len = 0
@@ -287,6 +297,14 @@ if __name__ == "__main__":
     code = code.replace("V", "11")
     code = code.replace("W", "000")
     code = code.replace("X", "01")
+    
+    command_list = ''.join(commands)
+    code = ''.join(operator for operator in code if operator in command_list)
+    
+    first_nonspace = 0
+    while code[first_nonspace] == ' ':
+        first_nonspace += 1
+    code = code[first_nonspace:]
 
     while is_digit_value(code[-1]) or code[-1] == "N":
         if code[-1] == "N":
@@ -295,6 +313,19 @@ if __name__ == "__main__":
             elements.append(int(code[-1]))
 
         code = code[:-1]
+
+    def find_arity(operator):
+        for arity,operators in enumerate(operator):
+            if operator in operators:
+                return arity
+        else:
+            return 1 # assume that it does nothing to the stack, i.e. is a no-op
+
+    final_stack_height = sum(1-find_arity(operator) for operator in code)
+    if final_stack_height <= 0 and len(elements) < 1:
+        elements.append(0)
+    if find_arity(code[0]) == 2 and len(elements) < 2:
+        elements.append(1)
 
     try:
         n_num = int(num[0])
