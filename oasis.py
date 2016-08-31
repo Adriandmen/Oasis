@@ -8,20 +8,21 @@ from commands import *
 
 code = ""
 elements = []
+selector = []
 sys.setrecursionlimit(5000)
+
 
 def func_a(n):
 
 
-
+    if DEBUG and selector:
+        print("selector >> " + str(selector))
     stack = []
 
     def pop_stack(n2=n, s2=stack):
         if s2:
             return s2.pop()
         else:
-            if n > len(elements) + 1000:
-                func_a(n - 1000)
             if DEBUG:
                 print("using a(" + str(n2 - 1) + ") = " + str(func_a(n2 - 1)))
             return func_a(n2 - 1)
@@ -38,6 +39,9 @@ def func_a(n):
         if DEBUG: print("already initialized: " + str(elements[n]) + " at n = " + str(n))
         return elements[n]
 
+    if len(elements) != 0 and n > len(elements) + 100:
+        func_a(n - 100)
+
     if DEBUG:
         print("\n --- a(" + str(n) + ") --- ")
 
@@ -49,11 +53,13 @@ def func_a(n):
         if DEBUG: print("command > " + command)
 
         if command == "+":
+
             b = pop_stack()
             a = pop_stack()
             stack.append(regular_arithmetic(a, b, "+"))
 
         elif command == "-":
+
             b = pop_stack()
 
             if stack:
@@ -63,38 +69,52 @@ def func_a(n):
             stack.append(regular_arithmetic(a, b, "-"))
 
         elif command == "*":
+
             b = pop_stack()
             a = pop_stack()
             stack.append(regular_arithmetic(a, b, "*"))
 
         elif command == "/":
+
             b = pop_stack()
             a = pop_stack()
             stack.append(regular_arithmetic(a, b, "/"))
 
         elif command == "m":
+
             b = pop_stack()
             a = pop_stack()
             stack.append(regular_arithmetic(a, b, "**"))
 
+        elif command == "%":
+
+            b = pop_stack()
+            a = pop_stack()
+            stack.append(regular_arithmetic(a, b, "%"))
+
         elif command == "\u00f7":
+
             b = pop_stack()
             a = pop_stack()
             stack.append(regular_arithmetic(a, b, "//"))
 
         elif command == "\u00b2":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "** 2"))
 
         elif command == ">":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "+ 1"))
 
         elif command == "<":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "- 1"))
 
         elif command == "!":
+
             a = pop_stack()
             stack.append(math.factorial(a))
 
@@ -102,31 +122,39 @@ def func_a(n):
             stack.append(n)
 
         elif command == "a":
+
             x = pop_stack()
             stack.append(func_a(x))
 
         elif command == "b":
+
             stack.append(func_a(n - 1))
 
         elif command == "c":
+
             stack.append(func_a(n - 2))
 
         elif command == "d":
+
             stack.append(func_a(n - 3))
 
         elif command == "e":
+
             x = pop_stack()
             stack.append(func_a(n - x))
 
         elif command == "j":
+
             a = pop_stack()
             stack.append(largest_divisor(a))
 
         elif command == "p":
+
             a = pop_stack()
             stack.append(is_prime(a))
 
         elif command == "q":
+
             a = pop_stack()
 
             if -1 < a < 9999:
@@ -143,23 +171,56 @@ def func_a(n):
                             prime_count += 1
                     stack.append(current_num)
 
+        elif command == "s":
+            a = pop_stack()
+            b = pop_stack()
+
+            stack.append(b)
+            stack.append(a)
+
         elif command == "x":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "* 2"))
 
         elif command == "y":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "* 3"))
 
         elif command == "z":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "* 4"))
 
+        elif command == "\"":
+            temp_string = ""
+            temp_string_2 = ""
+            temp_position = pointer_position
+            while temp_position < len(code) - 1:
+                temp_position += 1
+                try:
+                    current_command = code[temp_position]
+                except:
+                    break
+                if current_command == "\"":
+                    break
+                elif current_command == "\u00ff":
+                    temp_string += str(pop_stack(1))
+                    pointer_position += 1
+                else:
+                    temp_string += current_command
+                    pointer_position += 1
+            pointer_position += 1
+            stack.append(temp_string)
+
         elif command == "\u00ab":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "- 2"))
 
         elif command == "\u00bb":
+
             a = pop_stack()
             stack.append(single_arithmetic(a, "+ 2"))
 
@@ -237,7 +298,11 @@ if __name__ == "__main__":
     try:
         n_num = int(num[0])
     except:
-        n_num = 0
+        try:
+            n_num = str(num[0])
+            selector = range(0, len(n_num))
+        except:
+            n_num = 0
 
     if TIME_IT:
         import time
