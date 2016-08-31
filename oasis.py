@@ -14,18 +14,18 @@ sys.setrecursionlimit(5000)
 
 def func_a(n):
 
-
+    stack_len = 0
     if DEBUG and selector:
         print("selector >> " + str(selector))
     stack = []
 
-    def pop_stack(n2=n, s2=stack):
+    def pop_stack(num_s=1, n2=n, s2=stack):
         if s2:
             return s2.pop()
         else:
             if DEBUG:
-                print("using a(" + str(n2 - 1) + ") = " + str(func_a(n2 - 1)))
-            return func_a(n2 - 1)
+                print("using a(" + str(n2 - num_s) + ") = " + str(func_a(n2 - num_s)))
+            return func_a(n2 - num_s)
 
     result = None
     has_calculated = False
@@ -51,11 +51,11 @@ def func_a(n):
 
         command = code[pointer_position]
         if DEBUG: print("command > " + command)
+        stack_len = len(stack)
 
         if command == "+":
-
             b = pop_stack()
-            a = pop_stack()
+            a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "+"))
 
         elif command == "-":
@@ -65,37 +65,37 @@ def func_a(n):
             if stack:
                 a = pop_stack()
             else:
-                a, b = b, pop_stack()
+                a, b = b, pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "-"))
 
         elif command == "*":
 
             b = pop_stack()
-            a = pop_stack()
+            a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "*"))
 
         elif command == "/":
 
             b = pop_stack()
-            a = pop_stack()
+            a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "/"))
 
         elif command == "m":
 
             b = pop_stack()
-            a = pop_stack()
+            a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "**"))
 
         elif command == "%":
 
             b = pop_stack()
-            a = pop_stack()
+            a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "%"))
 
         elif command == "\u00f7":
 
             b = pop_stack()
-            a = pop_stack()
+            a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "//"))
 
         elif command == "\u00b2":
@@ -173,7 +173,7 @@ def func_a(n):
 
         elif command == "s":
             a = pop_stack()
-            b = pop_stack()
+            b = pop_stack(2 - stack_len)
 
             stack.append(b)
             stack.append(a)
@@ -286,6 +286,7 @@ if __name__ == "__main__":
     code = code.replace("U", "00")
     code = code.replace("V", "11")
     code = code.replace("W", "000")
+    code = code.replace("X", "01")
 
     while is_digit_value(code[-1]) or code[-1] == "N":
         if code[-1] == "N":
