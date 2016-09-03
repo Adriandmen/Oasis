@@ -12,7 +12,7 @@ selector = []
 sys.setrecursionlimit(5000)
 
 
-def func_a(n):
+def func_a(n, is_recurred=False):
 
     stack_len = 0
     if DEBUG and selector:
@@ -288,9 +288,17 @@ if __name__ == "__main__":
     code = code.replace("W", "000")
     code = code.replace("X", "01")
 
-    while is_digit_value(code[-1]) or code[-1] == "N":
+    while is_digit_value(code[-1]) or code[-1] == "N" or code[-1] == "\u00df" or code[-1] == "\u00de":
         if code[-1] == "N":
             elements.append(None)
+        elif code[-1] == "\u00df":
+            code = code[:-1]
+            digit = convert_from_base(code[-1], 214)
+            elements.append(digit)
+        elif code[-1] == "\u00de":
+            code = code[:-1]
+            digit = - convert_from_base(code[-1], 214)
+            elements.append(digit)
         else:
             elements.append(int(code[-1]))
 
