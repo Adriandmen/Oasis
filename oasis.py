@@ -25,7 +25,11 @@ def func_a(n, is_recurred=False):
         else:
             if DEBUG:
                 print("using a(" + str(n2 - num_s) + ") = " + str(func_a(n2 - num_s)))
-            return func_a(n2 - num_s)
+
+            if len(elements) == 0:
+                return n2
+            else:
+                return func_a(n2 - num_s)
 
     result = None
     has_calculated = False
