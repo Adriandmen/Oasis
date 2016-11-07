@@ -36,7 +36,7 @@ All commands will be stored in the file [`info.txt`](https://github.com/Adriandm
 
 ### Note
 
-Some thing are important when using Oasis:
+Some things are important when using Oasis:
 
  - This language is fairly new, so commands can be changed without prior notice.
  - Rather than input on STDIN, Oasis uses the command line arguments for input.
