@@ -28,7 +28,9 @@ You probably already have guessed it :P. This calculates the Fibonacci sequence.
 
 ### Where is the implicit input?
 
-Instead of the implicit input, this calculates the previous term of the sequence for the first time it's requested and `n - 2` for the second time it's requested, et cetera. This depends on the arity of a command. For example, if `+` was called on an empty stack, it would first use `a(n - 1)` and since the second time it's called on an empty stack, it uses `a(n - 2)`.
+Only if there are no elements specified at the end of a program, the user input will be used (`n`).
+
+If there are elements specified, Oasis calculates the previous term of the sequence for the first time it's requested and `n - 2` for the second time it's requested, et cetera. This depends on the arity of a command. For example, if `+` was called on an empty stack, it would first use `a(n - 1)` and since the second time it's called on an empty stack, it uses `a(n - 2)`.
 
 ### Exercise
 
