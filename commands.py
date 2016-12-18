@@ -7,25 +7,35 @@ from functools import reduce
 letters = list("abcdefghijklmnopqrstuvwxyz")
 numbers = list("0123456789")
 
+
 def regular_arithmetic(a, b, operator):
     if type(a) is list:
         if type(b) is list:
             result = []
             for Q in range(0, len(a)):
-                result.append(eval(str(ast.literal_eval(str(a[Q]))) + operator + str(ast.literal_eval(str(b[Q])))))
+                result.append(eval("(" + str(ast.literal_eval(str(a[Q]))) + ")"
+                                   + operator
+                                   + "(" + str(ast.literal_eval(str(b[Q]))) + ")"))
             return result
         else:
             result = []
             for Q in a:
-                result.append(eval(str(ast.literal_eval(str(Q))) + operator + str(ast.literal_eval(str(b)))))
+                result.append(eval("(" + str(ast.literal_eval(str(Q))) + ")"
+                                   + operator
+                                   + "(" + str(ast.literal_eval(str(b))) + ")"))
+            return result
     else:
         if type(b) is list:
             result = []
             for Q in b:
-                result.append(eval(str(ast.literal_eval(str(a))) + operator + str(ast.literal_eval(str(Q)))))
+                result.append(eval("(" + str(ast.literal_eval(str(a))) + ")"
+                                   + operator
+                                   + "(" + str(ast.literal_eval(str(Q))) + ")"))
             return result
         else:
-            return eval(str(ast.literal_eval(str(a))) + operator + str(ast.literal_eval(str(b))))
+            return eval("(" + str(ast.literal_eval(str(a))) + ")"
+                        + operator
+                        + "(" + str(ast.literal_eval(str(b))) + ")")
 
 
 def single_arithmetic(a, operator):

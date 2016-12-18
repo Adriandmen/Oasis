@@ -20,11 +20,14 @@ def func_a(n, is_recurred=False):
     stack = []
 
     def pop_stack(num_s=1, n2=n, s2=stack):
-        if s2:
-            return s2.pop()
+        if stack:
+            return stack.pop()
         else:
-            if DEBUG:
+            if DEBUG and not FIRST_AFTER:
                 print("using a(" + str(n2 - num_s) + ") = " + str(func_a(n2 - num_s)))
+
+            if FIRST_AFTER:
+                return n2
 
             if len(elements) == 0:
                 return n2
@@ -48,6 +51,7 @@ def func_a(n, is_recurred=False):
 
     if DEBUG:
         print("\n --- a(" + str(n) + ") --- ")
+        input(FIRST_AFTER)
 
     pointer_position = -1
     while pointer_position < len(code) - 1:
@@ -63,7 +67,6 @@ def func_a(n, is_recurred=False):
             stack.append(regular_arithmetic(a, b, "+"))
 
         elif command == "-":
-
             b = pop_stack()
 
             if stack:
@@ -73,87 +76,173 @@ def func_a(n, is_recurred=False):
             stack.append(regular_arithmetic(a, b, "-"))
 
         elif command == "*":
-
             b = pop_stack()
             a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "*"))
 
         elif command == "/":
-
             b = pop_stack()
             a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "/"))
 
-        elif command == "m":
+        elif command == "_":
+            a = pop_stack()
+            c = single_arithmetic(a, "== 0")
 
+            if type(c) is list:
+                stack.append([int(x) for x in c])
+            else:
+                stack.append(int(c))
+
+        elif command == "{":
+            a = pop_stack()
+
+            if type(a) is list:
+                stack.append(sorted(a))
+            else:
+                stack.append(''.join(sorted(str(a))))
+
+        elif command == "\u00A5":
+            a = pop_stack()
+
+            temp_list = []
+            if type(a) is int:
+                a = str(a)
+
+            length_of_list = len(a)
+
+            for Q in range(0, length_of_list - 1):
+                temp_list.append(ast.literal_eval(str(a[Q + 1])) - ast.literal_eval(str(a[Q])))
+
+            stack.append(temp_list)
+
+        elif command == "A":
+            a = pop_stack()
+            c = single_arithmetic(a, "== 1")
+
+            if type(c) is list:
+                stack.append([int(x) for x in c])
+            else:
+                stack.append(int(c))
+
+        elif command == "P":
+            a = pop_stack()
+
+            result = 1
+            if type(a) is int:
+                a = str(a)
+
+            for Q in a:
+                result *= ast.literal_eval(str(Q))
+
+            stack.append(result)
+
+        elif command == "Q":
+            a = pop_stack()
+            b = pop_stack(2 - stack_len)
+
+            c = regular_arithmetic(a, b, "==")
+
+            if type(c) is list:
+                stack.append([int(x) for x in c])
+            else:
+                stack.append(int(c))
+
+        elif command == "S":
+            a = pop_stack()
+
+            result = 0
+            if type(a) is int:
+                a = str(a)
+
+            for Q in a:
+                result += ast.literal_eval(str(Q))
+
+            stack.append(result)
+
+        elif command == "m":
             b = pop_stack()
             a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "**"))
 
         elif command == "%":
-
             b = pop_stack()
             a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "%"))
 
         elif command == "\u00f7":
-
             b = pop_stack()
             a = pop_stack(2 - stack_len)
             stack.append(regular_arithmetic(a, b, "//"))
 
         elif command == "\u00b2":
-
             a = pop_stack()
             stack.append(single_arithmetic(a, "** 2"))
 
         elif command == ">":
-
             a = pop_stack()
             stack.append(single_arithmetic(a, "+ 1"))
 
         elif command == "<":
-
             a = pop_stack()
             stack.append(single_arithmetic(a, "- 1"))
 
         elif command == "!":
-
             a = pop_stack()
             stack.append(math.factorial(a))
+
+        elif command == "D":
+            b = pop_stack()
+            a = pop_stack(2 - stack_len)
+            c = regular_arithmetic(a, b, "%")
+            c = single_arithmetic(c, "== 0")
+
+            if type(c) is list:
+                stack.append([int(x) for x in c])
+            else:
+                stack.append(int(c))
 
         elif command == "n":
             stack.append(n)
 
         elif command == "a":
-
             x = pop_stack()
             stack.append(func_a(x))
 
         elif command == "b":
-
             stack.append(func_a(n - 1))
 
         elif command == "c":
-
             stack.append(func_a(n - 2))
 
         elif command == "d":
-
             stack.append(func_a(n - 3))
 
         elif command == "e":
-
             x = pop_stack()
             stack.append(func_a(n - x))
 
-        elif command == "j":
+        elif command == "i":
 
+            if len(stack) > 0:
+                b = pop_stack()
+                a = pop_stack(2 - stack_len)
+            else:
+                a = pop_stack()
+                b = pop_stack()
+
+            if type(a) is list:
+                a = [str(x) for x in a]
+            else:
+                a = str(a)
+
+            stack.append(int(str(b) in a))
+
+        elif command == "j":
             a = pop_stack()
             stack.append(largest_divisor(a))
 
         elif command == "p":
-
             a = pop_stack()
             stack.append(is_prime(a))
 
@@ -272,6 +361,9 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--safe', help="Safe mode", action="store_true")
     parser.add_argument('-c', '--cp1252', help="Encode from CP-1252", action="store_true")
     parser.add_argument('-t', '--time', help="Time the program", action="store_true")
+    parser.add_argument('-n', '--first-after', help="Get the first element after input that satisfies each condition", action="store_true")
+    parser.add_argument('-o', '--add-one', help="Add one to the input before calculating", action="store_true")
+    parser.add_argument('-O', '--sub-one', help="Subtract one to the input before calculating", action="store_true")
     parser.add_argument("program_path", help="Program path", type=str)
 
     args, num = parser.parse_known_args()
@@ -280,6 +372,10 @@ if __name__ == "__main__":
     SAFE_MODE = args.safe
     ENCODE_CP1252 = args.cp1252
     TIME_IT = args.time
+    FIRST_AFTER = args.first_after
+
+    ADD_ONE = args.add_one
+    SUB_ONE = args.sub_one
 
     if ENCODE_CP1252:
         code = open(filename, "r", encoding="cp1252").read()
@@ -317,6 +413,11 @@ if __name__ == "__main__":
         except:
             n_num = 0
 
+    if ADD_ONE:
+        n_num += 1
+    if SUB_ONE:
+        n_num -= 1
+
     if TIME_IT:
         import time
         start_time = time.time()
@@ -325,4 +426,24 @@ if __name__ == "__main__":
         print()
         print("Elapsed: " + str(end_time - start_time) + " seconds")
     else:
-        print(func_a(n_num))
+        if FIRST_AFTER:
+            code_lines = code.split("\n")
+
+            while True:
+                n_num += 1
+
+                has_succeeded = True
+                for Q in code_lines:
+                    code = Q
+                    elements.clear()
+
+                    if func_a(n_num) != 1:
+                        has_succeeded = False
+                        break
+
+                if has_succeeded:
+                    print(n_num)
+                    break
+
+        else:
+            print(func_a(n_num))
