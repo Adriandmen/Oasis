@@ -23,10 +23,10 @@ def func_a(n, is_recurred=False):
         if stack:
             return stack.pop()
         else:
-            if DEBUG and not FIRST_AFTER:
+            if DEBUG and not (FIRST_AFTER or NTH_ELEMENT):
                 print("using a(" + str(n2 - num_s) + ") = " + str(func_a(n2 - num_s)))
 
-            if FIRST_AFTER:
+            if FIRST_AFTER or NTH_ELEMENT:
                 return n2
 
             if len(elements) == 0:
@@ -362,6 +362,7 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--cp1252', help="Encode from CP-1252", action="store_true")
     parser.add_argument('-t', '--time', help="Time the program", action="store_true")
     parser.add_argument('-n', '--first-after', help="Get the first element after input that satisfies each condition", action="store_true")
+    parser.add_argument('-N', '--nth-element', help="Get the nth element that satisfies the condition", action="store_true")
     parser.add_argument('-o', '--add-one', help="Add one to the input before calculating", action="store_true")
     parser.add_argument('-O', '--sub-one', help="Subtract one to the input before calculating", action="store_true")
     parser.add_argument("program_path", help="Program path", type=str)
@@ -373,6 +374,7 @@ if __name__ == "__main__":
     ENCODE_CP1252 = args.cp1252
     TIME_IT = args.time
     FIRST_AFTER = args.first_after
+    NTH_ELEMENT = args.nth_element
 
     ADD_ONE = args.add_one
     SUB_ONE = args.sub_one
@@ -444,6 +446,30 @@ if __name__ == "__main__":
                 if has_succeeded:
                     print(n_num)
                     break
+
+        elif NTH_ELEMENT:
+            code_lines = code.split("\n")
+
+            successes = 0
+            iteration = 0
+
+            while successes < n_num:
+
+                has_succeeded = True
+                for Q in code_lines:
+                    code = Q
+                    elements.clear()
+
+                    if func_a(iteration) != 1:
+                        has_succeeded = False
+                        break
+
+                if has_succeeded:
+                    successes += 1
+
+                iteration += 1
+
+            print(iteration - 1)
 
         else:
             print(func_a(n_num))

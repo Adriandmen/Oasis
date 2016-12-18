@@ -218,5 +218,6 @@ z    = Quadruples a number (A 1)
 Arguments:
 
 -n   = Find the first number after n satisfying each line of code
+-N   = Get the nth number that satisfies each line of code
 -o   = Add 1 to the input before calculating the function
 -O   = Subtract 1 from the input before calculating the function
