@@ -202,6 +202,17 @@ def func_a(n, is_recurred=False):
             else:
                 stack.append(int(c))
 
+        elif command == "E":
+            a = pop_stack()
+
+            if type(a) is list:
+                temp_list = []
+                for Q in a:
+                    temp_list.append(convert_to_base(abs(int(Q)), 2))
+                stack.append(temp_list)
+            else:
+                stack.append(convert_to_base(abs(int(a)), 2))
+
         elif command == "n":
             stack.append(n)
 
@@ -361,6 +372,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--safe', help="Safe mode", action="store_true")
     parser.add_argument('-c', '--cp1252', help="Encode from CP-1252", action="store_true")
     parser.add_argument('-t', '--time', help="Time the program", action="store_true")
+    parser.add_argument('-T', '--is-truthy', help="Checks each condition whether the value is truthy or falsy", action="store_true")
     parser.add_argument('-n', '--first-after', help="Get the first element after input that satisfies each condition", action="store_true")
     parser.add_argument('-N', '--nth-element', help="Get the nth element that satisfies the condition", action="store_true")
     parser.add_argument('-o', '--add-one', help="Add one to the input before calculating", action="store_true")
@@ -375,6 +387,7 @@ if __name__ == "__main__":
     TIME_IT = args.time
     FIRST_AFTER = args.first_after
     NTH_ELEMENT = args.nth_element
+    IS_TRUTHY = args.is_truthy
 
     ADD_ONE = args.add_one
     SUB_ONE = args.sub_one
@@ -470,6 +483,22 @@ if __name__ == "__main__":
                 iteration += 1
 
             print(iteration - 1)
+
+        elif IS_TRUTHY:
+            code_lines = code.split("\n")
+
+            result = 1
+
+            for line in code_lines:
+
+                code = line
+                elements.clear()
+
+                if func_a(n_num) != 1:
+                    result = 0
+                    break
+
+            print(result)
 
         else:
             print(func_a(n_num))
