@@ -318,6 +318,46 @@ def func_a(n, is_recurred=False):
             pointer_position += 1
             stack.append(temp_string)
 
+        elif command == "C":
+            b = pop_stack()
+            a = pop_stack()
+
+            if type(b) is not list:
+                b = str(b)
+
+            if type(a) is not list:
+                a = str(a)
+
+            stack.append(a.count(b))
+
+        elif command == "G":
+            a = pop_stack()
+
+            if type(a) is not list:
+                a = str(a)
+
+            result = []
+            temp = ""
+            prev = a[0]
+
+            for Q in a + "\0":
+                if Q == prev:
+                    temp += Q
+                else:
+                    prev = Q
+                    result.append(temp)
+                    temp = Q
+
+            stack.append(result)
+
+        elif command == "l":
+            a = pop_stack()
+
+            if type(a) is not list:
+                a = str(a)
+
+            stack.append(len(a))
+
         elif command == "\u00ab":
 
             a = pop_stack()
@@ -372,6 +412,7 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--safe', help="Safe mode", action="store_true")
     parser.add_argument('-c', '--cp1252', help="Encode from CP-1252", action="store_true")
     parser.add_argument('-t', '--time', help="Time the program", action="store_true")
+    parser.add_argument('-q', '--start-with-one', help="Start with n = 1", action="store_true")
     parser.add_argument('-T', '--is-truthy', help="Checks each condition whether the value is truthy or falsy", action="store_true")
     parser.add_argument('-n', '--first-after', help="Get the first element after input that satisfies each condition", action="store_true")
     parser.add_argument('-N', '--nth-element', help="Get the nth element that satisfies the condition", action="store_true")
@@ -388,6 +429,7 @@ if __name__ == "__main__":
     FIRST_AFTER = args.first_after
     NTH_ELEMENT = args.nth_element
     IS_TRUTHY = args.is_truthy
+    START_WITH_ONE = args.start_with_one
 
     ADD_ONE = args.add_one
     SUB_ONE = args.sub_one
@@ -464,7 +506,7 @@ if __name__ == "__main__":
             code_lines = code.split("\n")
 
             successes = 0
-            iteration = 0
+            iteration = 0 + START_WITH_ONE
 
             while successes < n_num:
 
