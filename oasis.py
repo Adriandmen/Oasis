@@ -21,6 +21,7 @@ def func_a(n, is_recurred=False):
 
     def pop_stack(num_s=1, n2=n, s2=stack):
         if stack:
+            if DEBUG: print("stack non empty")
             return stack.pop()
         else:
             if DEBUG and not (FIRST_AFTER or NTH_ELEMENT):
@@ -220,7 +221,85 @@ def func_a(n, is_recurred=False):
 
             elif command == "a":
                 x = pop_stack()
-                stack.append(func_a(x))
+                if type(x) is list:
+                    temp_list = []
+                    for Q in x:
+                        temp_list.append(func_a(Q))
+                    stack.append(temp_list)
+                else:
+                    stack.append(func_a(x))
+
+            elif command == "R":
+                try:
+                    if type(stack[-1]) is list:
+                        current_list = pop_stack()
+                        temp_list = []
+                        is_inclusive = False
+                        for N in range(0, len(current_list) - 1):
+                            b = int(current_list[N])
+                            a = int(current_list[N + 1])
+                            temp_list_2 = []
+                            if int(b) > int(a):
+                                for Q in range(int(a), int(b) + 1):
+                                    temp_list_2.append(Q)
+                                temp_list_2 = temp_list_2[::-1]
+                            else:
+                                for Q in range(int(b), int(a) + 1):
+                                    temp_list_2.append(Q)
+                            for Q in temp_list_2:
+                                if is_inclusive and len(temp_list_2) > 1:
+                                    is_inclusive = False
+                                    continue
+                                temp_list.append(Q)
+                            is_inclusive = True
+                    else:
+                        if len(stack) > 1:
+                            a, b = pop_stack(), pop_stack()
+                        else:
+                            b, a = pop_stack(), pop_stack()
+                        temp_list = []
+                        if int(b) > int(a):
+                            for Q in range(int(a), int(b) + 1):
+                                temp_list.append(Q)
+                            temp_list = temp_list[::-1]
+                        else:
+                            for Q in range(int(b), int(a) + 1):
+                                temp_list.append(Q)
+                except:
+                    a = pop_stack()
+                    if type(a) is list:
+                        current_list = a
+                        temp_list = []
+                        is_inclusive = False
+                        for N in range(0, len(current_list) - 1):
+                            b = int(current_list[N])
+                            a = int(current_list[N + 1])
+                            temp_list_2 = []
+                            if int(b) > int(a):
+                                for Q in range(int(a), int(b) + 1):
+                                    temp_list_2.append(Q)
+                                temp_list_2 = temp_list_2[::-1]
+                            else:
+                                for Q in range(int(b), int(a) + 1):
+                                    temp_list_2.append(Q)
+                            for Q in temp_list_2:
+                                if is_inclusive and len(temp_list_2) > 1:
+                                    is_inclusive = False
+                                    continue
+                                temp_list.append(Q)
+                            is_inclusive = True
+                    else:
+                        b, a = a, pop_stack()
+                        temp_list = []
+                        if int(b) > int(a):
+                            for Q in range(int(a), int(b) + 1):
+                                temp_list.append(Q)
+                            temp_list = temp_list[::-1]
+                        else:
+                            for Q in range(int(b), int(a) + 1):
+                                temp_list.append(Q)
+
+                stack.append(temp_list)
 
             elif command == "b":
                 stack.append(func_a(n - 1))
@@ -234,6 +313,14 @@ def func_a(n, is_recurred=False):
             elif command == "e":
                 x = pop_stack()
                 stack.append(func_a(n - x))
+
+            elif command == "\u00e0":
+                stack.append(func_a(n - 1))
+                stack.append(func_a(n - 2))
+
+            elif command == "\u00e1":
+                stack.append(func_a(n - 2))
+                stack.append(func_a(n - 1))
 
             elif command == "i":
 
@@ -299,6 +386,22 @@ def func_a(n, is_recurred=False):
                 a = pop_stack()
                 stack.append(single_arithmetic(a, "* 4"))
 
+            elif command == "t":
+                a = pop_stack()
+                stack.append(single_arithmetic(a, "/ 2"))
+
+            elif command == "u":
+                a = pop_stack()
+                stack.append(single_arithmetic(a, "/ 3"))
+
+            elif command == "v":
+                a = pop_stack()
+                stack.append(single_arithmetic(a, "// 2"))
+
+            elif command == "w":
+                a = pop_stack()
+                stack.append(single_arithmetic(a, "// 3"))
+
             elif command == "\"":
                 temp_string = ""
                 temp_string_2 = ""
@@ -359,6 +462,33 @@ def func_a(n, is_recurred=False):
                     a = str(a)
 
                 stack.append(len(a))
+
+            elif command == "L":
+                temp_list = []
+                a = pop_stack()
+                if type(a) is list:
+                    for Q in a:
+                        Q = int(Q)
+                        if Q > 0:
+                            for X in range(1, Q + 1):
+                                temp_list.append(X)
+                        elif Q < 0:
+                            for X in range(1, (Q * -1) + 1):
+                                temp_list.append(X * -1)
+                        else:
+                            temp_list.append(0)
+                else:
+                    a = int(a)
+                    if a > 0:
+                        for X in range(1, a + 1):
+                            temp_list.append(X)
+                    elif a < 0:
+                        for X in range(1, (a * -1) + 1):
+                            temp_list.append(X * -1)
+                    else:
+                        temp_list.append(0)
+
+                stack.append(temp_list)
 
             elif command == "\u00ab":
 
