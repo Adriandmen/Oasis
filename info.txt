@@ -47,7 +47,7 @@ N    = Constant: None (A 0)
 O    = 
 P    = Computes the product of a list (A 1)
 Q    = Pops A and B and checks if they are equal (A 2)
-R    = 
+R    = Inclusive range [A .. B]
 S    = Computes the sum of a list (A 1)
 T    = Replaced in the code by "10"
 U    = Replaced in the code by "00"
@@ -219,6 +219,7 @@ Arguments:
 
 -n   = Find the first number after n satisfying each line of code
 -N   = Get the nth number that satisfies each line of code
+-R   = Reverse search the given sequence and output n where a(n) = arg[0]
 -o   = Add 1 to the input before calculating the function
 -O   = Subtract 1 from the input before calculating the function
 -T   = Checks if each condition is satisfied

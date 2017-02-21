@@ -561,6 +561,7 @@ if __name__ == "__main__":
     parser.add_argument('-N', '--nth-element', help="Get the nth element that satisfies the condition", action="store_true")
     parser.add_argument('-o', '--add-one', help="Add one to the input before calculating", action="store_true")
     parser.add_argument('-O', '--sub-one', help="Subtract one to the input before calculating", action="store_true")
+    parser.add_argument('-R', '--reverse-search', help="Reverse search the given sequence and output n where a(n) = input", action="store_true")
     parser.add_argument("program_path", help="Program path", type=str)
 
     args, num = parser.parse_known_args()
@@ -573,6 +574,7 @@ if __name__ == "__main__":
     NTH_ELEMENT = args.nth_element
     IS_TRUTHY = args.is_truthy
     START_WITH_ONE = args.start_with_one
+    REVERSE_SEARCH = args.reverse_search
 
     ADD_ONE = args.add_one
     SUB_ONE = args.sub_one
@@ -684,6 +686,17 @@ if __name__ == "__main__":
                     break
 
             print(result)
+
+        elif REVERSE_SEARCH:
+            count = 0 + START_WITH_ONE
+
+            while True:
+
+                if func_a(count) == n_num:
+                    print(count)
+                    break
+
+                count += 1
 
         else:
             print(func_a(n_num))
