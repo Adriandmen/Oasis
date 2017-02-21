@@ -178,7 +178,7 @@ def func_a(n, is_recurred=False):
                 a = pop_stack(2 - stack_len)
                 stack.append(regular_arithmetic(a, b, "//"))
 
-            elif command == "\u00b2":
+            elif command == "k":
                 a = pop_stack()
                 stack.append(single_arithmetic(a, "** 2"))
 
@@ -499,6 +499,15 @@ def func_a(n, is_recurred=False):
 
                 a = pop_stack()
                 stack.append(single_arithmetic(a, "+ 2"))
+
+            elif command == "\u00b9":
+                stack.append(int(num[0]))
+
+            elif command == "\u00b2":
+                stack.append(int(num[1]))
+
+            elif command == "\u00b3":
+                stack.append(int(num[2]))
 
             elif command.isnumeric():
                 temp_number = ""
