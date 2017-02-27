@@ -22,7 +22,11 @@ def func_a(n, is_recurred=False):
     def pop_stack(num_s=1, n2=n, s2=stack):
         if stack:
             if DEBUG: print("stack non empty")
-            return stack.pop()
+            top_of_stack = stack.pop()
+            try:
+                return ast.literal_eval(str(top_of_stack))
+            except:
+                return top_of_stack
         else:
             if DEBUG and not (FIRST_AFTER or NTH_ELEMENT):
                 print("using a(" + str(n2 - num_s) + ") = " + str(func_a(n2 - num_s)))
@@ -162,6 +166,40 @@ def func_a(n, is_recurred=False):
                     result += ast.literal_eval(str(Q))
 
                 stack.append(result)
+
+            elif command == "f":
+                a = pop_stack()
+                if type(a) is list:
+                    temp_list = []
+                    for Q in a:
+                        temp_list.append(prime_factorization(int(Q)))
+                    stack.append(temp_list)
+                else:
+                    stack.append(prime_factorization(int(a)))
+
+            elif command == "F":
+                a = pop_stack()
+                if type(a) is list:
+                    temp_list = []
+                    for Q in a:
+                        temp_list.append(prime_factorization_duplicates(int(Q)))
+                    stack.append(temp_list)
+                else:
+                    stack.append(prime_factorization_duplicates(int(a)))
+
+            elif command == "$":
+                a = pop_stack()
+                if type(a) is int:
+                    a = str(a)
+
+                stack.append(a[0])
+
+            elif command == "#":
+                a = pop_stack()
+                if type(a) is int:
+                    a = str(a)
+
+                stack.append(a[-1])
 
             elif command == "m":
                 b = pop_stack()
