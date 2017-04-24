@@ -622,11 +622,38 @@ if __name__ == "__main__":
     else:
         code = open(filename, "r", encoding="utf-8").read()
 
-    code = code.replace("T", "10")
-    code = code.replace("U", "00")
-    code = code.replace("V", "11")
-    code = code.replace("W", "000")
-    code = code.replace("X", "01")
+    # code = code.replace("T", "10")
+    # code = code.replace("U", "00")
+    # code = code.replace("V", "11")
+    # code = code.replace("W", "000")
+    # code = code.replace("X", "01")
+
+    processed_code = ""
+    string_mode = False
+
+    for character in code:
+        if string_mode:
+            processed_code += character
+            if character == "\"":
+                string_mode = not string_mode
+        else:
+            if character == "\"":
+                processed_code += character
+                string_mode = not string_mode
+            else:
+                processed_code += character.replace("T", "10")\
+                    .replace("U", "00")\
+                    .replace("V", "11")\
+                    .replace("W", "000")\
+                    .replace("X", "01")
+
+    code = processed_code
+
+    if DEBUG:
+        try:
+            print("final code:", processed_code)
+        except:
+            pass
 
     while is_digit_value(code[-1]) or code[-1] == "N" or code[-1] == "\u00df" or code[-1] == "\u00de":
         if code[-1] == "N":
