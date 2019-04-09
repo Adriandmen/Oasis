@@ -24,7 +24,7 @@ The explanation for the code `bc+`:
      c   # Calculates a(n - 2)
       +  # Adds them up
 
-You probably already have guessed it :P. This calculates the Fibonacci sequence. [It calculates `n = 1000` in a split second](http://oasis.tryitonline.net/#code=YmMrMTA&input=&args=MTAwMA+LXQ).
+You probably already have guessed it :P. This calculates the Fibonacci sequence. [It calculates `n = 1000` in a split second](https://oasis.tryitonline.net/#code=YmMrMTA&input=&args=MTAwMA+LXQ).
 
 ### Where is the implicit input?
 
@@ -40,5 +40,4 @@ All commands will be stored in the file [`info.txt`](https://github.com/Adriandm
 
 Some things are important when using Oasis:
 
- - This language is fairly new, so commands can be changed without prior notice.
  - Rather than input on STDIN, Oasis uses the command line arguments for input.
