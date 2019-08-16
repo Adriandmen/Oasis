@@ -1,10 +1,10 @@
 # Oasis
 
-Oasis is a **stack-based** language specialized in sequences. Not only as in the commands, but also as in how it calculates the sequences. With smart memory usage and memoization, it can calculate several sequences within seconds of time, without getting a recursion error or memory overflow.
+Oasis is a **stack-based** language specialized in sequences. Not only as in the commands, but also as in how it calculates the sequences. With smart memory usage and memorization, it can calculate several sequences within seconds of time, without getting a recursion error or memory overflow.
 
 ### What does a program look like?
 
-Due to it's nature, you can only make a _niladic_ program (which takes no argument), or a _monadic_ program (which takes 1 argument). This might be changed in the future, because it's quite restricted at the moment. Let's see how the actual code looks like:
+Due to its nature, you can only make a _niladic_ program (which takes no arguments), or a _monadic_ program (which takes 1 argument). This might be changed in the future, because it's quite restricted at the moment. Let's see how the actual code looks like:
 
     [code][predefined base cases]
 
